@@ -3,10 +3,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
-import { User } from './users/user.entity';
+import { User } from './entity/user.entity';
 import { UsersModule } from './users/users.module';
 import { TodosModule } from './todos/todos.module';
-import { Todo } from './todos/todo.entity';
+import { Todo } from './entity/todo.entity';
 @Module({
   imports: [
     TypeOrmModule.forRoot({

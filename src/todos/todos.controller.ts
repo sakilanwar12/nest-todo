@@ -14,11 +14,13 @@ import { CreateTodoDto } from './dtos/create-todo.dto';
 @Controller('todos')
 export class TodosController {
   constructor(private todosService: TodosService) {}
-  @Post()
-  createTodo(@Body() createTodoDto: CreateTodoDto) {
-    return this.todosService.createTodo(createTodoDto);
+  @Post('user/:userId')
+  createTodo(
+    @Param('userId', ParseIntPipe) userId: number,
+    @Body() createTodoDto: CreateTodoDto,
+  ) {
+    return this.todosService.createTodoForUser(userId, createTodoDto);
   }
-
   @Get()
   findTodos() {
     return this.todosService.findTodos();
@@ -41,5 +43,4 @@ export class TodosController {
   deleteTodo(@Param('id', ParseIntPipe) id: number) {
     return this.todosService.deleteTodo(id);
   }
-
 }

@@ -1,20 +1,26 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Todo } from './todo.entity';
+import { Todo } from 'src/entity/todo.entity';
+import { User } from 'src/entity/user.entity';
 
 @Injectable()
 export class TodosService {
   constructor(
     @InjectRepository(Todo) private todoRepository: Repository<Todo>,
+    @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
 
-  createTodo(todo: Partial<Todo>): Promise<Todo> {
+  async createTodoForUser(userId: number, todo: Partial<Todo>): Promise<Todo> {
+    const user = await this.userRepository.findOneBy({ id: userId });
+console.log(user);
+    if (!user) {
+      throw new NotFoundException(`User with ID ${userId} not found`);
+    }
     const newTodo = this.todoRepository.create({
       ...todo,
-      createdAt: new Date(),
+      user,
     });
-
     return this.todoRepository.save(newTodo);
   }
 
@@ -49,5 +55,4 @@ export class TodosService {
     }
     await this.todoRepository.remove(todo);
   }
-  
 }
