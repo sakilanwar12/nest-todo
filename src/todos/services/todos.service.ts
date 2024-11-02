@@ -13,7 +13,6 @@ export class TodosService {
 
   async createTodoForUser(userId: number, todo: Partial<Todo>): Promise<Todo> {
     const user = await this.userRepository.findOneBy({ id: userId });
-console.log(user);
     if (!user) {
       throw new NotFoundException(`User with ID ${userId} not found`);
     }
@@ -35,6 +34,15 @@ console.log(user);
     }
     return todo;
   }
+
+  async findTodosByUser(userId: number): Promise<Todo[]> {
+    const user = await this.userRepository.findOneBy({ id: userId });
+    if (!user) {
+      throw new NotFoundException(`User with ID ${userId} not found`);
+    }
+    return this.todoRepository.find({ where: { user } });
+  }
+  
   async updateTodoById(
     id: number,
     updateTodoDto: Partial<Todo>,

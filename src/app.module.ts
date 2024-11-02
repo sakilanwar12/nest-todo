@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { User } from './entity/user.entity';
 import { UsersModule } from './users/users.module';
-import { TodosModule } from './todos/todos.module';
+import { TodosModule } from './todos/services/todos.module';
 import { Todo } from './entity/todo.entity';
 @Module({
   imports: [

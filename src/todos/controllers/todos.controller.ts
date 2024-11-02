@@ -8,8 +8,8 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { TodosService } from './todos.service';
-import { CreateTodoDto } from './dtos/create-todo.dto';
+import { TodosService } from '../services/todos.service';
+import { CreateTodoDto } from '../dtos/create-todo.dto';
 
 @Controller('todos')
 export class TodosController {
@@ -21,6 +21,7 @@ export class TodosController {
   ) {
     return this.todosService.createTodoForUser(userId, createTodoDto);
   }
+
   @Get()
   findTodos() {
     return this.todosService.findTodos();
@@ -29,6 +30,10 @@ export class TodosController {
   @Get(':id')
   findTodoById(@Param('id', ParseIntPipe) id: number) {
     return this.todosService.findTodoById(id);
+  }
+  @Get('user/:userId')
+  findTodosByUser(@Param('userId', ParseIntPipe) userId: number) {
+    return this.todosService.findTodosByUser(userId);
   }
 
   @Put(':id')
