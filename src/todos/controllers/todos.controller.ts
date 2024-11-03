@@ -10,6 +10,8 @@ import {
 } from '@nestjs/common';
 import { TodosService } from '../services/todos.service';
 import { CreateTodoDto } from '../dtos/create-todo.dto';
+import { Paginate, Paginated, PaginateQuery } from 'nestjs-paginate';
+import { Todo } from 'src/entity/todo.entity';
 
 @Controller('todos')
 export class TodosController {
@@ -23,9 +25,13 @@ export class TodosController {
   }
 
   @Get()
-  findTodos() {
-    return this.todosService.findTodos();
+  // findTodos() {
+  //   return this.todosService.findTodos();
+  // }
+  findTodos(@Paginate() query: PaginateQuery): Promise<Paginated<Todo>> {
+    return this.todosService.findTodos(query);
   }
+
 
   @Get(':id')
   findTodoById(@Param('id', ParseIntPipe) id: number) {

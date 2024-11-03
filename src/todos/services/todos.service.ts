@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Todo } from 'src/entity/todo.entity';
 import { User } from 'src/entity/user.entity';
+import { paginate, Paginated, PaginateQuery } from 'nestjs-paginate';
 
 @Injectable()
 export class TodosService {
@@ -23,8 +24,12 @@ export class TodosService {
     return this.todoRepository.save(newTodo);
   }
 
-  findTodos() {
-    return this.todoRepository.find();
+  findTodos(query: PaginateQuery): Promise<Paginated<Todo>> {
+    return paginate(query, this.todoRepository, {
+      sortableColumns: ['title'],
+      searchableColumns: ['title', 'description'],
+      defaultSortBy: [['id', 'ASC']],
+    });
   }
 
   async findTodoById(id: number): Promise<Todo> {
@@ -42,7 +47,7 @@ export class TodosService {
     }
     return this.todoRepository.find({ where: { user } });
   }
-  
+
   async updateTodoById(
     id: number,
     updateTodoDto: Partial<Todo>,
