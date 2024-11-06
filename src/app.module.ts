@@ -7,6 +7,7 @@ import { User } from './entity/user.entity';
 import { UsersModule } from './users/users.module';
 import { Todo } from './entity/todo.entity';
 import { TodosModule } from './todos/todos.module';
+import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -21,6 +22,7 @@ import { TodosModule } from './todos/todos.module';
     }),
     UsersModule,
     TodosModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

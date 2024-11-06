@@ -7,12 +7,15 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/jwt-auth-gurd';
 import { CreateUserDto } from 'src/users/dtos/create-user.dto';
 import { UpdateUserDto } from 'src/users/dtos/update-user.dto';
 import { UsersService } from 'src/users/users.service';
 
 @Controller('users')
+@UseGuards(JwtAuthGuard)
 export class UsersController {
   constructor(private usersService: UsersService) {}
   @Get()
